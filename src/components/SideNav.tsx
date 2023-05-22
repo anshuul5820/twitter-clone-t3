@@ -1,22 +1,72 @@
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
-import React from 'react'
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import React from "react";
+import IconHoverEffect from "./IconHoverEffect";
+import { VscAccount, VscHome, VscSignIn, VscSignOut } from "react-icons/vsc";
 
 const SideNav = () => {
-    const session = useSession();
+  const session = useSession();
 
-    //only available when logged in
-    const user = session.data?.user;
+  //only available when logged in
+  const user = session.data?.user;
 
-    return <nav className="sticky top-0 px-2 py-4">
-        <ul className="flex flex-col whitespace-nowrap items-start gap-2">
-            <li><Link href="/">Home</Link></li>
-            {!!user && <li><Link href={`/profiles/${user.id}`}>Profile</Link></li>}
-            {/* e- not pass in signin, signout */}
-            {!!user && <li><button onClick={() => void signOut()}>Logout</button></li>}
-            {!user && <li><button onClick={() => void signIn()}>Login</button></li>}
-        </ul>
+  return (
+    <nav className="sticky top-0 px-2 py-4">
+      <ul className="flex flex-col items-start gap-2 whitespace-nowrap">
+        <li>
+          <Link href="/">
+            <IconHoverEffect>
+              <span className="flex items-center gap-4">
+                <VscHome className="h-8 w-8" />
+                <span className="hidden text-lg md:inline">Home</span>
+              </span>
+            </IconHoverEffect>
+          </Link>
+        </li>
+        {!!user && (
+          <li>
+            <Link href={`/profiles/${user.id}`}>
+              <IconHoverEffect>
+                <span className="flex items-center gap-4">
+                  <VscAccount className="h-8 w-8" />
+                  <span className="hidden text-lg md:inline">Profile</span>
+                </span>
+              </IconHoverEffect>
+            </Link>
+          </li>
+        )}
+        {/* e- not pass in signin, signout */}
+        {!!user && (
+          <li>
+            <button onClick={() => void signOut()}>
+              <IconHoverEffect>
+                <span className="flex items-center gap-4">
+                  <VscSignIn className="h-8 w-8 fill-red-700" />
+                  <span className="hidden fill-red-700 text-lg md:inline">
+                    Log Out
+                  </span>
+                </span>
+              </IconHoverEffect>
+            </button>
+          </li>
+        )}
+        {!user && (
+          <li>
+            <button onClick={() => void signIn()}>
+              <IconHoverEffect>
+                <span className="flex items-center gap-4">
+                  <VscSignOut className="h-8 w-8 fill-green-700" />
+                  <span className="hidden fill-green-700 text-lg md:inline">
+                    Log In
+                  </span>
+                </span>
+              </IconHoverEffect>
+            </button>
+          </li>
+        )}
+      </ul>
     </nav>
-}
+  );
+};
 
-export default SideNav
+export default SideNav;

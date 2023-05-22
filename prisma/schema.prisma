@@ -16,9 +16,11 @@ model Tweet {
     userId    String
     content   String
     createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    likes     Like[]
 
+    user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    likes Like[]
+
+    @@unique([createdAt, id])
     @@index([userId])
 }
 
@@ -26,7 +28,7 @@ model Like {
     userId  String
     tweetId String
     user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-    tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+    Tweet   Tweet  @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
     @@id([userId, tweetId])
     @@index([userId])
@@ -71,12 +73,12 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    tweets        Tweet[]
-    likes         Like[]
 
-    //many2many
-    followers User[] @relation(name: "followers")
-    follows   User[] @relation(name: "followers")
+    // Non-Next Auth
+    tweets    Tweet[]
+    likes     Like[]
+    followers User[]  @relation(name: "Followers")
+    follows   User[]  @relation(name: "Followers")
 }
 
 model VerificationToken {

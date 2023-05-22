@@ -21,7 +21,7 @@ const Button = ({
     : "bg-blue-500 hover:bg-blue-400 focus-visible:bg-blue-400";
   return (
     <button
-      className={`rounded-full text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${sizeClasses} ${colorClasses}`}
+      className={`rounded-full text-white transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 ${sizeClasses} ${colorClasses} ${className}`}
       {...props}
     >
       Submit
